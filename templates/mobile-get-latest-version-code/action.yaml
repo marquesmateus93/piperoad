@@ -1,6 +1,19 @@
 name: 'Mobile Get Latest Version Code'
 description: 'Get and increment the latest version code of the mobile project.'
 
+inputs:
+  PACKAGE_NAME:
+    description: 'The package name of the mobile app.'
+    required: true
+  FLAVOR:
+    description: 'The flavor of the mobile app.'
+    required: true
+    default: 'dev'
+  TRACK_TYPE:
+    description: 'The track type to get the latest version code from (e.g., production, beta, alpha).'
+    required: true
+    default: 'internal'
+
 outputs:
   version_code:
     value: ${{ steps.get_latest_version_code.outputs.version_code }}
@@ -15,6 +28,10 @@ runs:
     - name: Run Get Latest Version Code
       id: get_latest_version_code
       shell: bash
+      env:
+        PACKAGE_NAME: ${{ inputs.PACKAGE_NAME }}
+        FLAVOR: ${{ inputs.FLAVOR }}
+        TRACK_TYPE: ${{ inputs.TRACK_TYPE }}
       run: |
         cd android
         latest_version_code=$(bundle exec fastlane get_latest_version_code | sed -n 's/.*Latest version code: *\([0-9][0-9]*\).*/\1/p')

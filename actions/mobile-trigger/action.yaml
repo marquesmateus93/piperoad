@@ -13,6 +13,17 @@ inputs:
     description: 'Whether to install fastlane or not.'
     default: 'true'
     required: true
+  PACKAGE_NAME:
+    description: 'The package name of the mobile app.'
+    required: true
+  FLAVOR:
+    description: 'The flavor of the mobile app.'
+    required: true
+    default: 'dev'
+  TRACK_TYPE:
+    description: 'The track type to get the latest version code from (e.g., production, beta, alpha).'
+    required: true
+    default: 'internal'
 
 runs:
   using: composite
@@ -47,6 +58,10 @@ runs:
     - name: Get Latest Version Code
       id: get_latest_version_code
       uses: marquesmateus93/piperoad/templates/mobile-get-latest-version-code@master
+      with:
+        PACKAGE_NAME: ${{ inputs.PACKAGE_NAME }}
+        FLAVOR: ${{ inputs.FLAVOR }}
+        TRACK_TYPE: ${{ inputs.TRACK_TYPE }}
 
     - name: Show Outputs
       shell: bash
