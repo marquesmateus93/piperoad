@@ -1,0 +1,25 @@
+name: NodeJS Install
+description: 'NodeJS install from Node Source repository.'
+
+inputs:
+  NODE_VERSION:
+    description: 'NodeJS version.'
+    required: true
+    default: '18'
+
+runs:
+  using: composite
+  steps:
+    - name: Install Node.js
+      shell: bash
+      env:
+        NODE_VERSION: ${{ inputs.NODE_VERSION }}
+      run: |
+        apt-get update
+        apt-get install -y curl ca-certificates gnupg
+        curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
+        apt-get install -y nodejs
+        echo "NodeJS Version:"
+        node -v
+        echo "NPM Version:"
+        npm -v

@@ -1,0 +1,39 @@
+name: 'Android Decrypt Values'
+description: 'Decrypt the values of the Android project.'
+
+inputs:
+  WORKING_DIRECTORY:
+    description: 'The working directory.'
+    required: true
+  GOOGLE_SERVICE_ACCOUNT_JSON:
+    description: 'The Google service account JSON file.'
+    required: true
+  ANDROID_KEYSTORE:
+    description: 'The Android keystore file.'
+    required: true
+  ANDROID_KEYSTORE_PROPERTIES:
+    description: 'The Android keystore properties file.'
+
+runs:
+  using: composite
+  steps:
+    - name: Google Service Account Decription
+      if: ${{ inputs.GOOGLE_SERVICE_ACCOUNT_JSON != '' }}
+      shell: bash
+      run: |
+        echo "${{ inputs.GOOGLE_SERVICE_ACCOUNT_JSON }}" | \
+        base64 --decode > ${{ inputs.WORKING_DIRECTORY }}/android/google-service.json
+
+    - name: Keystore Decription
+      if: ${{ inputs.ANDROID_KEYSTORE != '' }}
+      shell: bash
+      run: |
+        echo "${{ inputs.ANDROID_KEYSTORE }}" | \
+        base64 --decode > ${{ inputs.WORKING_DIRECTORY }}/android/key.keystore
+
+    - name: Keystore Properties Decription
+      if: ${{ inputs.ANDROID_KEYSTORE_PROPERTIES != '' }}
+      shell: bash
+      run: |
+        echo "${{ inputs.ANDROID_KEYSTORE_PROPERTIES }}" | \
+        base64 --decode > ${{ inputs.WORKING_DIRECTORY }}/android/keystore.properties

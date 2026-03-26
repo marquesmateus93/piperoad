@@ -1,0 +1,39 @@
+name: 'Mobile Install Dependencies'
+description: 'Install the dependencies of the mobile project.'
+
+inputs:
+  INSTALL_NODE_MODULES:
+    description: 'Install node modules.'
+    required: true
+    default: 'false'
+
+  INSTALL_BUNDLER:
+    description: 'Install bundler.'
+    required: true
+    default: 'false'
+
+  INSTALL_FASTLANE:
+    description: 'Install fastlane.'
+    required: true
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node Modules
+      shell: bash
+      if: ${{ inputs.INSTALL_NODE_MODULES == 'true'}} 
+      run: |
+        npm ci
+
+    - name: Install Bundler
+      shell: bash
+      if: ${{ inputs.INSTALL_BUNDLER == 'true' }}
+      run: |
+        gem install bundler
+
+    - name: Install Fastlane
+      shell: bash
+      if: ${{ inputs.INSTALL_FASTLANE == 'true' }}
+      run: |
+        bundle install

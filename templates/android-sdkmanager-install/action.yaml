@@ -1,0 +1,40 @@
+name: Install Android SDK Manager
+description: 'Install the Android SDK Manager from Android repository.'
+
+inputs:
+  CMDLINE_TOOLS_VERSION:
+    description: 'CMD Line Tools version to install. If not specified, the latest version will be installed.'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Install Android SDK Manager
+      shell: bash
+      env:
+        CMDLINE_TOOLS_VERSION: ${{ inputs.CMDLINE_TOOLS_VERSION }}
+      run: |
+        ANDROID_SDK_ROOT=$HOME/android-sdk
+        mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+        cd $ANDROID_SDK_ROOT/cmdline-tools
+
+        if [ -n "$CMDLINE_TOOLS_VERSION" ]; then
+          echo "Using specified version: $CMDLINE_TOOLS_VERSION"
+          URL="https://dl.google.com/android/repository/commandlinetools-linux-${CMDLINE_TOOLS_VERSION}_latest.zip"
+        else
+          echo "No version specified, fetching latest..."
+          URL=$(curl -s https://dl.google.com/android/repository/repository2-1.xml | \
+            grep -o 'https://dl.google.com/android/repository/commandlinetools-linux-[^"]*_latest.zip' | \
+            head -n 1)
+        fi
+
+        echo "Downloading: $URL"
+
+        curl -o commandlinetools.zip "$URL"
+        unzip -q commandlinetools.zip
+        mv cmdline-tools latest
+
+        yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
+
+        echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+        echo "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin" >> $GITHUB_PATH

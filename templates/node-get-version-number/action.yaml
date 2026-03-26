@@ -1,0 +1,17 @@
+name: 'Node Get Version Number'
+description: 'Get the version number of the Node.js project.'
+
+outputs:
+  version_number: 
+    value: ${{ steps.get-version-number.outputs.version_number }}
+    description: 'Version number output.'
+
+runs:
+  using: composite
+  steps:
+  - name: Node Get Version Number
+    id: get-version-number
+    shell: bash
+    run: |
+      version_number=$(node -p "require('./package.json').version")
+      echo "version_number=$version_number" >> $GITHUB_OUTPUT

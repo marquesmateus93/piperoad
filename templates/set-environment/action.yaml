@@ -1,0 +1,25 @@
+name: 'Set Environment'
+description: 'Set the environment based on the project folder changes.'
+
+outputs:
+  environment: 
+    value: ${{ steps.set-environment.outputs.environment }}
+    description: 'Environment output.'
+
+runs:
+  using: "composite"
+  steps:
+  - name: Set Environment
+    id: set-environment
+    shell: bash
+    run: |
+      if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.ref_name }}" == "dev" ]]; then
+        echo "environment=dev" >> "$GITHUB_OUTPUT"
+      elif [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.ref_name }}" == "stg" ]]; then
+        echo "environment=stg" >> "$GITHUB_OUTPUT"
+      elif [[ "${{ github.ref_name }}" == "master" ]]; then
+        echo "environment=prd" >> "$GITHUB_OUTPUT"
+      else
+        echo "Branch not mapped to an environment."
+        exit 1
+      fi

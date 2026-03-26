@@ -1,0 +1,29 @@
+name: 'Mobile Get Latest Version Code'
+description: 'Get and increment the latest version code of the mobile project.'
+
+outputs:
+  version_code:
+    value: ${{ steps.get_latest_version_code.outputs.version_code }}
+    description: 'Version code output.'
+  next_version_code:
+    value: ${{ steps.increment_version_code.outputs.next_version_code }}
+    description: 'Next version code output.'
+
+runs:
+  using: composite
+  steps:
+    - name: Run Get Latest Version Code
+      id: get_latest_version_code
+      shell: bash
+      run: |
+        cd android
+        latest_version_code=$(bundle exec fastlane get_latest_version_code | sed -n 's/.*Latest version code: *\([0-9][0-9]*\).*/\1/p')
+        echo "version_code=$latest_version_code" >> $GITHUB_OUTPUT
+
+    - name: Increment Version Code
+      id: increment_version_code
+      shell: bash
+      run: |
+        latest="${{ steps.get_latest_version_code.outputs.version_code }}"
+        next=$((latest + 1))
+        echo "next_version_code=$next" >> $GITHUB_OUTPUT
