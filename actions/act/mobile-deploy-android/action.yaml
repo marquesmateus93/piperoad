@@ -78,8 +78,8 @@ runs:
         ruby-version: ${{ inputs.RUBY_VERSION }}
         bundler-cache: true
 
-    - name: Node Install
-      uses: marquesmateus93/piperoad/templates/node-install@master
+    - name: NodeJS Install
+      uses: marquesmateus93/piperoad/templates/nodejs-install@master
       with:
         NODE_VERSION: ${{ inputs.NODE_VERSION }}
 
@@ -104,7 +104,7 @@ runs:
         cache: 'gradle'
 
     - name: Install Android SDK Manager
-      uses: marquesmateus93/piperoad/templates/android-sdk-manager-install@master
+      uses: marquesmateus93/piperoad/templates/android-sdkmanager-install@master
       with:
         CMDLINE_TOOLS_VERSION: ${{ inputs.CMDLINE_TOOLS_VERSION }}
 
