@@ -13,7 +13,7 @@ inputs:
     description: 'Whether to install fastlane or not.'
     default: 'true'
     required: true
-  PACKAGE_NAME:
+  PACKAGE_NAME_BASE:
     description: 'The package name of the mobile app.'
     required: true
   FLAVOR:
@@ -118,4 +118,5 @@ runs:
         JAVA_VERSION: ${{ inputs.JAVA_VERSION }}
         JAVA_DISTRIBUTION: ${{ inputs.JAVA_DISTRIBUTION }}
         CMDLINE_TOOLS_VERSION: ${{ inputs.CMDLINE_TOOLS_VERSION }}
+        PACKAGE_NAME_BASE: ${{ inputs.PACKAGE_NAME_BASE }}
         FLAVOR: ${{ inputs.FLAVOR }}
