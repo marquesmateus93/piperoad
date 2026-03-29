@@ -1,0 +1,98 @@
+name: Mobile Deploy Android
+description: 'Deploying the Android mobile app to the Play Store.'
+
+inputs:
+  WORKING_DIRECTORY:
+    description: 'The working directory for the mobile project.'
+    required: true
+    default: '.'
+  GOOGLE_SERVICE_ACCOUNT_JSON:
+    description: 'The Google service account JSON file.'
+    required: true
+  ANDROID_KEYSTORE:
+    description: 'The Android keystore file.'
+    required: true
+  ANDROID_KEYSTORE_PROPERTIES:
+    description: 'The Android keystore properties file.'
+    required: true
+  RUBY_VERSION:
+    description: 'The Ruby version to use.'
+    default: '3.2'
+    required: true
+  NODE_VERSION:
+    description: 'The Node version to use.'
+    default: '18'
+    required: true
+  INSTALL_NODE_MODULES:
+    description: 'Whether to install node modules or not.'
+    default: 'true'
+    required: true
+  INSTALL_BUNDLER:
+    description: 'Whether to install bundler or not.'
+    default: 'true'
+    required: true
+  INSTALL_FASTLANE:
+    description: 'Whether to install fastlane or not.'
+    default: 'true'
+    required: true
+  FLAVOR:
+    description: 'The flavor of the mobile app.'
+    required: true
+    default: 'dev'
+  VERSION_NUMBER:
+    description: 'The version number to deploy.'
+    required: true
+  VERSION_CODE:
+    description: 'The version code to deploy.'
+    required: true
+
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Decrypt Values
+      uses: marquesmateus93/piperoad/templates/mobile-decrypt-values@master
+      with:
+        WORKING_DIRECTORY: ${{ inputs.WORKING_DIRECTORY }}
+        GOOGLE_SERVICE_ACCOUNT_JSON: ${{ inputs.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        ANDROID_KEYSTORE: ${{ inputs.ANDROID_KEYSTORE }}
+        ANDROID_KEYSTORE_PROPERTIES: ${{ inputs.ANDROID_KEYSTORE_PROPERTIES }}
+
+    - name: Setup Ruby and Bundler
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ inputs.RUBY_VERSION }}
+        bundler-cache: true
+
+    - name: Node Install
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install Dependencies
+      uses: marquesmateus93/piperoad/templates/mobile-install-dependencies@master
+      with:
+        INSTALL_NODE_MODULES: ${{ inputs.INSTALL_NODE_MODULES }}
+        INSTALL_BUNDLER: ${{ inputs.INSTALL_BUNDLER }}
+        INSTALL_FASTLANE: ${{ inputs.INSTALL_FASTLANE }}
+
+    - name: Cache gems
+      uses: actions/cache@v4
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+
+    - name: Deploy to Play Store
+      shell: bash
+      env:
+        PACKAGE_NAME_BASE: ${{ env.PACKAGE_NAME_BASE }}
+        FLAVOR: ${{ inputs.environment }}
+        VERSION_NUMBER: ${{ inputs.version_number }}
+        VERSION_CODE: ${{ inputs.version_code }}
+      run: |
+        cd android && \
+        bundle exec fastlane deploy_play_store
