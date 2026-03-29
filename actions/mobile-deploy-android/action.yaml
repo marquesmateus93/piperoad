@@ -96,7 +96,7 @@ runs:
         FLAVOR: ${{ inputs.environment }}
         VERSION_NUMBER: ${{ inputs.version_number }}
         VERSION_CODE: ${{ inputs.version_code }}
-        TRACK_TYPE: ${{ inputs.track_type }}
+        TRACK_TYPE: ${{ inputs.TRACK_TYPE }}
       run: |
         cd android && \
         bundle exec fastlane deploy_play_store
