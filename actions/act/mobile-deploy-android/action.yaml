@@ -47,6 +47,9 @@ inputs:
     description: 'CMD Line Tools version to install. If not specified, the latest version will be installed.'
     default: '11076708_latest'
     required: true
+  PACKAGE_NAME_BASE:
+    description: 'The package name of the mobile app.'
+    required: true
   FLAVOR:
     description: 'The flavor of the mobile app.'
     required: true
@@ -112,7 +115,7 @@ runs:
       shell: bash
       env:
         PACKAGE_NAME_BASE: ${{ env.PACKAGE_NAME_BASE }}
-        FLAVOR: ${{ inputs.ENVIRONMENT }}
+        FLAVOR: ${{ inputs.FLAVOR }}
         VERSION_NUMBER: ${{ inputs.VERSION_NUMBER }}
         VERSION_CODE: ${{ inputs.VERSION_CODE }}
       run: |

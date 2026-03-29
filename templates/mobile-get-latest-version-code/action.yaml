@@ -2,7 +2,7 @@ name: 'Mobile Get Latest Version Code'
 description: 'Get and increment the latest version code of the mobile project.'
 
 inputs:
-  PACKAGE_NAME:
+  PACKAGE_NAME_BASE:
     description: 'The package name of the mobile app.'
     required: true
   FLAVOR:
@@ -29,7 +29,7 @@ runs:
       id: get_latest_version_code
       shell: bash
       env:
-        PACKAGE_NAME: ${{ inputs.PACKAGE_NAME }}
+        PACKAGE_NAME_BASE: ${{ inputs.PACKAGE_NAME_BASE }}
         FLAVOR: ${{ inputs.FLAVOR }}
         TRACK_TYPE: ${{ inputs.TRACK_TYPE }}
       run: |
