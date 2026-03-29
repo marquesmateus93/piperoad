@@ -13,7 +13,7 @@ inputs:
     description: 'Whether to install fastlane or not.'
     default: 'true'
     required: true
-  PACKAGE_NAME:
+  PACKAGE_NAME_BASE:
     description: 'The package name of the mobile app.'
     required: true
   FLAVOR:
@@ -59,7 +59,7 @@ runs:
       id: get_latest_version_code
       uses: marquesmateus93/piperoad/templates/mobile-get-latest-version-code@master
       with:
-        PACKAGE_NAME: ${{ inputs.PACKAGE_NAME }}
+        PACKAGE_NAME_BASE: ${{ inputs.PACKAGE_NAME_BASE }}
         FLAVOR: ${{ inputs.FLAVOR }}
         TRACK_TYPE: ${{ inputs.TRACK_TYPE }}
 
@@ -69,3 +69,16 @@ runs:
         echo "Environment: ${{ steps.set-environment.outputs.environment }}"
         echo "Version Number: ${{ steps.get_latest_version_code.outputs.version_code }}"
         echo "Next Version Code: ${{ steps.get_latest_version_code.outputs.next_version_code }}"
+
+    - name: Deploy Android App
+      uses: marquesmateus93/piperoad/actions/act/mobile-deploy-android@master
+      with:
+        GOOGLE_SERVICE_ACCOUNT_JSON: ${{ inputs.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        ANDROID_KEYSTORE: ${{ inputs.ANDROID_KEYSTORE }}
+        ANDROID_KEYSTORE_PROPERTIES: ${{ inputs.ANDROID_KEYSTORE_PROPERTIES }}
+        RUBY_VERSION: ${{ inputs.RUBY_VERSION }}
+        INSTALL_FASTLANE: ${{ inputs.INSTALL_FASTLANE }}
+        PACKAGE_NAME_BASE: ${{ inputs.PACKAGE_NAME_BASE }}
+        FLAVOR: ${{ inputs.FLAVOR }}
+        VERSION_NUMBER: ${{ steps.get_latest_version_code.outputs.next_version_code }}
+        VERSION_CODE: ${{ steps.get_latest_version_code.outputs.next_version_code }}
