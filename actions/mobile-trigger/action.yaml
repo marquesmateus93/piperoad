@@ -71,7 +71,7 @@ runs:
         echo "Next Version Code: ${{ steps.get_latest_version_code.outputs.next_version_code }}"
 
     - name: Deploy Android App
-      uses: marquesmateus93/piperoad/actions/act/mobile-deploy-android@master
+      uses: marquesmateus93/piperoad/actions/mobile-deploy-android@master
       with:
         GOOGLE_SERVICE_ACCOUNT_JSON: ${{ inputs.GOOGLE_SERVICE_ACCOUNT_JSON }}
         ANDROID_KEYSTORE: ${{ inputs.ANDROID_KEYSTORE }}
