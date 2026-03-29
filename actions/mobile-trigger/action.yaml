@@ -82,3 +82,4 @@ runs:
         FLAVOR: ${{ inputs.FLAVOR }}
         VERSION_NUMBER: ${{ steps.get_latest_version_code.outputs.next_version_code }}
         VERSION_CODE: ${{ steps.get_latest_version_code.outputs.next_version_code }}
+        TRACK_TYPE: ${{ inputs.TRACK_TYPE }}
