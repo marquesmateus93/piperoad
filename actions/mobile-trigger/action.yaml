@@ -97,5 +97,7 @@ runs:
         ANDROID_KEYSTORE: ${{ inputs.ANDROID_KEYSTORE }}
         ANDROID_KEYSTORE_PROPERTIES: ${{ inputs.ANDROID_KEYSTORE_PROPERTIES }}
         NODE_VERSION: ${{ inputs.NODE_VERSION }}
+        INSTALL_NODE_MODULES: ${{ inputs.INSTALL_NODE_MODULES }}
+        INSTALL_BUNDLER: ${{ inputs.INSTALL_BUNDLER }}
         VERSION_NUMBER: ${{ steps.get_latest_version_code.outputs.next_version_code }}
         VERSION_CODE: ${{ steps.get_latest_version_code.outputs.next_version_code }}
