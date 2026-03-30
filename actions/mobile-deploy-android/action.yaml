@@ -35,6 +35,9 @@ inputs:
     description: 'Whether to install fastlane or not.'
     default: 'true'
     required: true
+  PACKAGE_NAME_BASE:
+    description: 'The package name of the mobile app.'
+    required: true
   FLAVOR:
     description: 'The flavor of the mobile app.'
     required: true
@@ -93,9 +96,9 @@ runs:
       shell: bash
       env:
         PACKAGE_NAME_BASE: ${{ env.PACKAGE_NAME_BASE }}
-        FLAVOR: ${{ inputs.environment }}
-        VERSION_NUMBER: ${{ inputs.version_number }}
-        VERSION_CODE: ${{ inputs.version_code }}
+        FLAVOR: ${{ inputs.FLAVOR }}
+        VERSION_NUMBER: ${{ inputs.VERSION_NUMBER }}
+        VERSION_CODE: ${{ inputs.VERSION_CODE }}
         TRACK_TYPE: ${{ inputs.TRACK_TYPE }}
       run: |
         cd android && \
