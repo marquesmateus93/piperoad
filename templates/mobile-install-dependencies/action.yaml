@@ -5,17 +5,14 @@ inputs:
   INSTALL_NODE_MODULES:
     description: 'Install node modules.'
     required: true
-    default: 'false'
 
   INSTALL_BUNDLER:
     description: 'Install bundler.'
     required: true
-    default: 'false'
 
   INSTALL_FASTLANE:
     description: 'Install fastlane.'
     required: true
-    default: 'false'
 
 runs:
   using: composite

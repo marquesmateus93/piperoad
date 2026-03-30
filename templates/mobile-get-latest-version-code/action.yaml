@@ -8,11 +8,9 @@ inputs:
   FLAVOR:
     description: 'The flavor of the mobile app.'
     required: true
-    default: 'dev'
   TRACK_TYPE:
-    description: 'The track type to get the latest version code from (e.g., production, beta, alpha).'
+    description: 'The track type to get the latest version code from (e.g., dev, stg, prd).'
     required: true
-    default: 'internal'
 
 outputs:
   version_code:
