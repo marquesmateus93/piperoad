@@ -7,11 +7,9 @@ inputs:
     required: true
   RUBY_VERSION:
     description: 'The Ruby version to use.'
-    default: '3.2'
     required: true
   INSTALL_FASTLANE:
     description: 'Whether to install fastlane or not.'
-    default: 'true'
     required: true
   PACKAGE_NAME_BASE:
     description: 'The package name of the mobile app.'
@@ -19,11 +17,27 @@ inputs:
   FLAVOR:
     description: 'The flavor of the mobile app.'
     required: true
-    default: 'dev'
   TRACK_TYPE:
-    description: 'The track type to get the latest version code from (e.g., production, beta, alpha).'
+    description: 'The track type to get the latest version code from (e.g., dev, stg, prd).'
     required: true
-    default: 'internal'
+  WORKING_DIRECTORY:
+    description: 'The working directory for the mobile project.'
+    required: true
+  ANDROID_KEYSTORE:
+    description: 'The Android keystore file.'
+    required: true
+  ANDROID_KEYSTORE_PROPERTIES:
+    description: 'The Android keystore properties file.'
+    required: true
+  NODE_VERSION:
+    description: 'The Node version to use.'
+    required: true
+  INSTALL_NODE_MODULES:
+    description: 'Whether to install node modules or not.'
+    required: true
+  INSTALL_BUNDLER:
+    description: 'Whether to install bundler or not.'
+    required: true
 
 runs:
   using: composite
@@ -38,7 +52,7 @@ runs:
     - name: Decrypt Values
       uses: marquesmateus93/piperoad/templates/mobile-decrypt-values@master
       with:
-        WORKING_DIRECTORY: .
+        WORKING_DIRECTORY: ${{ inputs.WORKING_DIRECTORY }}
         GOOGLE_SERVICE_ACCOUNT_JSON: ${{ inputs.GOOGLE_SERVICE_ACCOUNT_JSON }}
 
     - name: NodeJS Get Version Number
@@ -74,12 +88,14 @@ runs:
       uses: marquesmateus93/piperoad/actions/mobile-deploy-android@master
       with:
         GOOGLE_SERVICE_ACCOUNT_JSON: ${{ inputs.GOOGLE_SERVICE_ACCOUNT_JSON }}
-        ANDROID_KEYSTORE: ${{ inputs.ANDROID_KEYSTORE }}
-        ANDROID_KEYSTORE_PROPERTIES: ${{ inputs.ANDROID_KEYSTORE_PROPERTIES }}
         RUBY_VERSION: ${{ inputs.RUBY_VERSION }}
         INSTALL_FASTLANE: ${{ inputs.INSTALL_FASTLANE }}
         PACKAGE_NAME_BASE: ${{ inputs.PACKAGE_NAME_BASE }}
         FLAVOR: ${{ inputs.FLAVOR }}
+        TRACK_TYPE: ${{ inputs.TRACK_TYPE }}
+        WORKING_DIRECTORY: ${{ inputs.WORKING_DIRECTORY }}
+        ANDROID_KEYSTORE: ${{ inputs.ANDROID_KEYSTORE }}
+        ANDROID_KEYSTORE_PROPERTIES: ${{ inputs.ANDROID_KEYSTORE_PROPERTIES }}
+        NODE_VERSION: ${{ inputs.NODE_VERSION }}
         VERSION_NUMBER: ${{ steps.get_latest_version_code.outputs.next_version_code }}
         VERSION_CODE: ${{ steps.get_latest_version_code.outputs.next_version_code }}
-        TRACK_TYPE: ${{ inputs.TRACK_TYPE }}
