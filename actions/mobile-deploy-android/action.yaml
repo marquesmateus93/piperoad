@@ -95,7 +95,7 @@ runs:
     - name: Deploy to Play Store
       shell: bash
       env:
-        PACKAGE_NAME_BASE: ${{ env.PACKAGE_NAME_BASE }}
+        PACKAGE_NAME_BASE: ${{ inputs.PACKAGE_NAME_BASE }}
         FLAVOR: ${{ inputs.FLAVOR }}
         VERSION_NUMBER: ${{ inputs.VERSION_NUMBER }}
         VERSION_CODE: ${{ inputs.VERSION_CODE }}
