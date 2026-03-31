@@ -5,7 +5,6 @@ inputs:
   WORKING_DIRECTORY:
     description: 'The working directory for the mobile project.'
     required: true
-    default: '.'
   GOOGLE_SERVICE_ACCOUNT_JSON:
     description: 'The Google service account JSON file.'
     required: true
@@ -17,35 +16,27 @@ inputs:
     required: true
   RUBY_VERSION:
     description: 'The Ruby version to use.'
-    default: '3.2'
     required: true
   NODE_VERSION:
     description: 'The Node version to use.'
-    default: '18'
     required: true
   INSTALL_NODE_MODULES:
     description: 'Whether to install node modules or not.'
-    default: 'true'
     required: true
   INSTALL_BUNDLER:
     description: 'Whether to install bundler or not.'
-    default: 'true'
     required: true
   INSTALL_FASTLANE:
     description: 'Whether to install fastlane or not.'
-    default: 'true'
     required: true
   JAVA_VERSION:
     description: 'The Java version to use.'
-    default: '17'
     required: true
   JAVA_DISTRIBUTION:
     description: 'The Java distribution to use (e.g., temurin, zulu).'
-    default: 'temurin'
     required: true
   CMDLINE_TOOLS_VERSION:
     description: 'CMD Line Tools version to install. If not specified, the latest version will be installed.'
-    default: '11076708_latest'
     required: true
   PACKAGE_NAME_BASE:
     description: 'The package name of the mobile app.'
@@ -53,7 +44,6 @@ inputs:
   FLAVOR:
     description: 'The flavor of the mobile app.'
     required: true
-    default: 'dev'
   VERSION_NUMBER:
     description: 'The version number to deploy.'
     required: true
