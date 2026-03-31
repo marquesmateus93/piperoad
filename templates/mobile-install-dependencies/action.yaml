@@ -4,15 +4,15 @@ description: 'Install the dependencies of the mobile project.'
 inputs:
   INSTALL_NODE_MODULES:
     description: 'Install node modules.'
-    required: true
+    required: false
 
   INSTALL_BUNDLER:
     description: 'Install bundler.'
-    required: true
+    required: false
 
   INSTALL_FASTLANE:
     description: 'Install fastlane.'
-    required: true
+    required: false
 
 runs:
   using: composite
