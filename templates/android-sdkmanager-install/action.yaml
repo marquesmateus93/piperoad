@@ -25,7 +25,7 @@ runs:
           echo "No version specified, fetching latest..."
           URL=$(curl -s https://dl.google.com/android/repository/repository2-1.xml | \
             grep -o 'https://dl.google.com/android/repository/commandlinetools-linux-[^"]*_latest.zip' | \
-            head -n 1)
+            head -n '1p')
         fi
 
         echo "Downloading: $URL"
